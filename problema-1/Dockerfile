@@ -5,13 +5,12 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN apk --no-cache add git
 RUN go mod download
-COPY ui/ ./ui
 COPY cmd/ ./cmd
 COPY internal/ ./internal
 
 RUN mkdir ./tmp
 
-RUN CGO_ENABLED=0 GOOS=linux go build -tags=remote -ldflags="-w -s" -o p1 ./cmd/web
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o http ./cmd/http
 
 FROM alpine:3.19 AS final
 LABEL author="matisin" maintainer="matias.medina.s2@gmail.com"
@@ -21,7 +20,7 @@ ENV TZ=America/Santiago \
     ENV=prod
 
 WORKDIR /app
-COPY --from=builder /app/p1 .
+COPY --from=builder /app/http .
 
 ARG HTTP_PORT=8080
 ENV HTTP_PORT=${HTTP_PORT}
