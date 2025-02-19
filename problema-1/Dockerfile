@@ -7,6 +7,7 @@ RUN apk --no-cache add git
 RUN go mod download
 COPY cmd/ ./cmd
 COPY internal/ ./internal
+COPY pkgs/ ./pkgs
 
 RUN mkdir ./tmp
 
@@ -26,4 +27,4 @@ ARG HTTP_PORT=8080
 ENV HTTP_PORT=${HTTP_PORT}
 EXPOSE ${HTTP_PORT}
 
-ENTRYPOINT ["./p1", "--format=json"]
+ENTRYPOINT ["./http", "--format=json"]
