@@ -1,2 +1,0 @@
-go test fuzz v1
-string("Bs\xc1\xa4T\xc7\xd9\xcdf")

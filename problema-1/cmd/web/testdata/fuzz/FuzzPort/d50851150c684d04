@@ -1,2 +1,0 @@
-go test fuzz v1
-string("G\x12\xa0\xdeJ\x12j\xc7dN\x01")

@@ -3,7 +3,7 @@ package assertor
 import (
 	"fmt"
 
-	"github.com/go-on-bike/bike/validator"
+	"github.com/do-prueba-tecnica/problema-1/pkgs/validator"
 )
 
 func NotEmptyString(s string, msg string) {
