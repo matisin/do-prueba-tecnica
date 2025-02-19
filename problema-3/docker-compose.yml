@@ -1,0 +1,18 @@
+services:
+  test:
+    build:
+      dockerfile: Dockerfile
+      target: test
+    volumes:
+      - ./requirements.txt:/app/requirements.txt
+      - ./data_processing.py:/app/data_processing.py
+      - ./test_data_processing.py:/app/test_data_processing.py
+    working_dir: /app
+    tty: true
+  run_process:
+    build:
+      dockerfile: Dockerfile
+      target: production
+    volumes:
+      - ./requirements.txt:/app/requirements.txt
+      - ./data_processing.py:/app/data_processing.py
