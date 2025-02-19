@@ -3,15 +3,26 @@ package http_adapter
 import (
 	"encoding/json"
 	"io"
+	"log/slog"
 	"net/http"
 	"strconv"
 )
 
-func (h *HTTP) healthCheck(w http.ResponseWriter, _ *http.Request) {
+func (h *HTTP) logInfo(r *http.Request) {
+	h.logger.Info("Request received",
+		slog.String("method", r.Method),
+		slog.String("url", r.URL.String()),
+		slog.String("remote_addr", r.RemoteAddr),
+		slog.String("user_agent", r.UserAgent()),
+	)
+}
+func (h *HTTP) healthCheck(w http.ResponseWriter, r *http.Request) {
+	h.logInfo(r)
 	io.WriteString(w, "The server is responding ok")
 }
 
 func (h *HTTP) getIDByPatent(w http.ResponseWriter, r *http.Request) {
+	h.logInfo(r)
 	patent := r.PathValue("patente")
 	err, id := h.app.PatentToID(patent)
 	if err != nil {
@@ -27,6 +38,7 @@ func (h *HTTP) getIDByPatent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *HTTP) getPatentByID(w http.ResponseWriter, r *http.Request) {
+	h.logInfo(r)
 	idString := r.PathValue("id")
 	id, err := strconv.Atoi(idString)
 	if err != nil {
